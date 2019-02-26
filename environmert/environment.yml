@@ -1,4 +1,4 @@
-name: dog-project
+name: cat_vs_dog
 channels:
   - defaults
 dependencies:

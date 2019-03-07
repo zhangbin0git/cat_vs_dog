@@ -35,15 +35,23 @@ sample_submission.csv 需要将最终测试集的测试结果写入.csv 文件�
 本项目的最低要求是kaggle Public Leaderboard前10%。   
 在kaggle上，总共有1314只队伍参加了比赛，前10%为131位之前，131位的得分是0.06127，所以模型预测结果分数要小于0.06127。
 
-### 评价指标
-kaggle的评估标准是log损失函数，以下为表达式：   
-$LogLoss = -\frac{1}{n}\sum_{i=1}^n [y_ilog(\hat{y}_i)+(1-y_i)log(1- \hat{y}_i)]$
+## 评估指标
 
-其中：   
-n 是测试集中图片数量。   
-$\hat{y}_i$是图片预测为狗的概率。   
-${y}_i$如果图像是狗，则为1，如果是猫，则为0。   
-$log()$是自然对数。   
+kaggle 官方的评估标准是 LogLoss，下面的表达式就是二分类问题的 LogLoss 定义。
+
+<div align="center"><a href="https://www.codecogs.com/eqnedit.php?latex=LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]" target="_blank"><img src="https://latex.codecogs.com/gif.latex?LogLoss&space;=&space;-\frac{1}{n}\sum_{i=1}^n&space;[y_ilog(\hat{y}_i)&plus;(1-y_i)log(1-&space;\hat{y}_i)]" title="LogLoss = -\frac{1}{n}\sum_{i=1}^n [y_ilog(\hat{y}_i)+(1-y_i)log(1- \hat{y}_i)]" /></a></div>
+
+其中：
+
+- n 是测试集中图片数量
+
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\hat{y}_i" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\hat{y}_i" title="\hat{y}_i" /></a> 是图片预测为狗的概率
+
+- <a href="https://www.codecogs.com/eqnedit.php?latex=y_i" target="_blank"><img src="https://latex.codecogs.com/gif.latex?y_i" title="y_i" /></a> 如果图像是狗，则为1，如果是猫，则为0
+
+- <a href="https://www.codecogs.com/eqnedit.php?latex=log()" target="_blank"><img src="https://latex.codecogs.com/gif.latex?log()" title="log()" /></a> 是自然（基数 <a href="https://www.codecogs.com/eqnedit.php?latex=e" target="_blank"><img src="https://latex.codecogs.com/gif.latex?e" title="e" /></a>）对数
+
+ 
 对数损失越小，代表模型的性能越好。    
 
 交叉熵是分类问题中常用的损失函数，被广泛应用。

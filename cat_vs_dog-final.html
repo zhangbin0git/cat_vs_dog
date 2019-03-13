@@ -11726,7 +11726,9 @@ body {
 div#notebook {
   overflow: visible;
   border-top: none;
-}@media print {
+}
+
+@media print {
   div.cell {
     display: block;
     page-break-inside: avoid;
@@ -11747,7 +11749,7 @@ div#notebook {
 
 <!-- Loading mathjax macro -->
 <!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     <!-- MathJax configuration -->
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -11771,17 +11773,18 @@ div#notebook {
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="&#26426;&#22120;&#23398;&#20064;&#32435;&#31859;&#23398;&#20301;">&#26426;&#22120;&#23398;&#20064;&#32435;&#31859;&#23398;&#20301;<a class="anchor-link" href="#&#26426;&#22120;&#23398;&#20064;&#32435;&#31859;&#23398;&#20301;">&#182;</a></h1><p>猫狗大战毕业项目<br>
 张斌<br>
 2019年3月6日</p>
-<h2 id="&#39033;&#30446;&#35828;&#26126;">&#39033;&#30446;&#35828;&#26126;<a class="anchor-link" href="#&#39033;&#30446;&#35828;&#26126;">&#182;</a></h2><p>本项目是优达学城的一个毕业项目。项目要求使用深度学习方法识别一张图片是猫还是狗</p>
+<h2 id="&#39033;&#30446;&#35828;&#26126;">&#39033;&#30446;&#35828;&#26126;<a class="anchor-link" href="#&#39033;&#30446;&#35828;&#26126;">&#182;</a></h2><p>本项目是优达学城的一个毕业项目。项目要求使用深度学习方法识别一张图片是狗的概率（1 =狗，0 =猫）</p>
 <ul>
-<li>输入：一张彩色图片</li>
-<li>输出：是猫还是狗</li>
+<li>输入：一张图片</li>
+<li>输出：图片是狗的概率</li>
 </ul>
 <h2 id="&#23454;&#39564;&#29615;&#22659;">&#23454;&#39564;&#29615;&#22659;<a class="anchor-link" href="#&#23454;&#39564;&#29615;&#22659;">&#182;</a></h2><p>项目使用Anaconda搭建环境。使用environment目录下的yml进行环境安装。</p>
 <p>$ conda env create -f environmert/environmert.yml</p>
@@ -11789,7 +11792,8 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11799,7 +11803,8 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11823,13 +11828,15 @@ div#notebook {
 <span class="kn">from</span> <span class="nn">glob</span> <span class="k">import</span> <span class="n">glob</span>
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
 <span class="kn">from</span> <span class="nn">keras.preprocessing</span> <span class="k">import</span> <span class="n">image</span>
-<span class="kn">from</span> <span class="nn">keras.applications.resnet50</span> <span class="k">import</span> <span class="n">ResNet50</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_ResNet50</span>
-<span class="kn">from</span> <span class="nn">keras.applications.xception</span> <span class="k">import</span> <span class="n">Xception</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_Xception</span>
-<span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="k">import</span> <span class="n">InceptionV3</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_InceptionV3</span>
+<span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="k">import</span> <span class="n">Adadelta</span>
+<span class="kn">from</span> <span class="nn">keras.applications.resnet50</span> <span class="k">import</span> <span class="n">ResNet50</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_ResNet50</span><span class="p">,</span> <span class="n">decode_predictions</span> <span class="k">as</span> <span class="n">decode_predictions_ResNet50</span>
+<span class="kn">from</span> <span class="nn">keras.applications.xception</span> <span class="k">import</span> <span class="n">Xception</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_Xception</span><span class="p">,</span> <span class="n">decode_predictions</span> <span class="k">as</span> <span class="n">decode_predictions_Xception</span>
+<span class="kn">from</span> <span class="nn">keras.applications.inception_v3</span> <span class="k">import</span> <span class="n">InceptionV3</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_InceptionV3</span><span class="p">,</span> <span class="n">decode_predictions</span> <span class="k">as</span> <span class="n">decode_predictions_InceptionV3</span>
 <span class="kn">from</span> <span class="nn">keras.preprocessing.image</span> <span class="k">import</span> <span class="n">ImageDataGenerator</span>
-<span class="kn">from</span> <span class="nn">keras.applications.inception_resnet_v2</span> <span class="k">import</span> <span class="n">InceptionResNetV2</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_InceptionResNetV2</span>
+<span class="kn">from</span> <span class="nn">keras.applications.inception_resnet_v2</span> <span class="k">import</span> <span class="n">InceptionResNetV2</span><span class="p">,</span> <span class="n">preprocess_input</span> <span class="k">as</span> <span class="n">preprocess_input_InceptionResNetV2</span><span class="p">,</span> <span class="n">decode_predictions</span> <span class="k">as</span> <span class="n">decode_predictions_InceptionResNetV2</span>
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Sequential</span><span class="p">,</span> <span class="n">Model</span>
-<span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="k">import</span> <span class="n">ModelCheckpoint</span> 
+<span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="k">import</span> <span class="n">ModelCheckpoint</span><span class="p">,</span> <span class="n">LearningRateScheduler</span>
+<span class="kn">import</span> <span class="nn">keras.backend</span> <span class="k">as</span> <span class="nn">K</span>
 <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">GlobalAveragePooling2D</span><span class="p">,</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Lambda</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Flatten</span>
 <span class="kn">from</span> <span class="nn">keras.utils</span> <span class="k">import</span> <span class="n">np_utils</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -11843,7 +11850,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11881,7 +11889,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11942,7 +11951,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11977,7 +11987,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12020,7 +12031,228 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>以上为判断为异常值的部分图片，其中也包含一些正常的图片，可以看到用箱型图存在相当的误判，此处参考<a href="https://zhuanlan.zhihu.com/p/34068451?edition=yidianzixun&amp;utm_source=yidianzixun&amp;yidian_docid=0IQskNR8">毕业设计 Dogs vs Cats For Udacity P7 (异常值检验)</a>中预处理模型的方式精细筛选异常图片，此处选用了ImageNet数据集训练出的模型和权重文件，根据参考文献中的实验，计划选用Xception、InceptionResNetV2和Inception V3共同完成异常数据检测。</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 建立异常图片list</span>
+<span class="n">abnormal_pic_list</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">del_pic</span><span class="p">(</span><span class="n">in_put</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">preprocess_input</span><span class="p">,</span> <span class="n">decode_predictions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;使用预训练模型预测异常图片&quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">in_put</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
+    <span class="n">img_path</span> <span class="o">=</span> <span class="n">file</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">target_size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">decode_predictions</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">10</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">z</span><span class="p">:</span>
+        <span class="n">n</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">ImageNetClasses</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">abnormal_pic_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 构建猫狗分类集合ImageNetClasses</span>
+<span class="n">ImageNetClasses</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;n02085620&#39;</span><span class="p">,</span> <span class="s1">&#39;n02085782&#39;</span><span class="p">,</span> <span class="s1">&#39;n02085936&#39;</span><span class="p">,</span> <span class="s1">&#39;n02086079&#39;</span><span class="p">,</span> <span class="s1">&#39;n02086240&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02086646&#39;</span><span class="p">,</span> <span class="s1">&#39;n02086910&#39;</span><span class="p">,</span> <span class="s1">&#39;n02087046&#39;</span><span class="p">,</span> <span class="s1">&#39;n02087394&#39;</span><span class="p">,</span> <span class="s1">&#39;n02088094&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02088238&#39;</span><span class="p">,</span> <span class="s1">&#39;n02088364&#39;</span><span class="p">,</span> <span class="s1">&#39;n02088466&#39;</span><span class="p">,</span> <span class="s1">&#39;n02088632&#39;</span><span class="p">,</span> <span class="s1">&#39;n02089078&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02089867&#39;</span><span class="p">,</span> <span class="s1">&#39;n02089973&#39;</span><span class="p">,</span> <span class="s1">&#39;n02090379&#39;</span><span class="p">,</span> <span class="s1">&#39;n02090622&#39;</span><span class="p">,</span> <span class="s1">&#39;n02090721&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02091032&#39;</span><span class="p">,</span> <span class="s1">&#39;n02091134&#39;</span><span class="p">,</span> <span class="s1">&#39;n02091244&#39;</span><span class="p">,</span> <span class="s1">&#39;n02091467&#39;</span><span class="p">,</span> <span class="s1">&#39;n02091635&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02091831&#39;</span><span class="p">,</span> <span class="s1">&#39;n02092002&#39;</span><span class="p">,</span> <span class="s1">&#39;n02092339&#39;</span><span class="p">,</span> <span class="s1">&#39;n02093256&#39;</span><span class="p">,</span> <span class="s1">&#39;n02093428&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02093647&#39;</span><span class="p">,</span> <span class="s1">&#39;n02093754&#39;</span><span class="p">,</span> <span class="s1">&#39;n02093859&#39;</span><span class="p">,</span> <span class="s1">&#39;n02093991&#39;</span><span class="p">,</span> <span class="s1">&#39;n02094114&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02094258&#39;</span><span class="p">,</span> <span class="s1">&#39;n02094433&#39;</span><span class="p">,</span> <span class="s1">&#39;n02095314&#39;</span><span class="p">,</span> <span class="s1">&#39;n02095570&#39;</span><span class="p">,</span> <span class="s1">&#39;n02095889&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02096051&#39;</span><span class="p">,</span> <span class="s1">&#39;n02096177&#39;</span><span class="p">,</span> <span class="s1">&#39;n02096294&#39;</span><span class="p">,</span> <span class="s1">&#39;n02096437&#39;</span><span class="p">,</span> <span class="s1">&#39;n02096585&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02097047&#39;</span><span class="p">,</span> <span class="s1">&#39;n02097130&#39;</span><span class="p">,</span> <span class="s1">&#39;n02097209&#39;</span><span class="p">,</span> <span class="s1">&#39;n02097298&#39;</span><span class="p">,</span> <span class="s1">&#39;n02097474&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02097658&#39;</span><span class="p">,</span> <span class="s1">&#39;n02098105&#39;</span><span class="p">,</span> <span class="s1">&#39;n02098286&#39;</span><span class="p">,</span> <span class="s1">&#39;n02098413&#39;</span><span class="p">,</span> <span class="s1">&#39;n02099267&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02099429&#39;</span><span class="p">,</span> <span class="s1">&#39;n02099601&#39;</span><span class="p">,</span> <span class="s1">&#39;n02099712&#39;</span><span class="p">,</span> <span class="s1">&#39;n02099849&#39;</span><span class="p">,</span> <span class="s1">&#39;n02100236&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02100583&#39;</span><span class="p">,</span> <span class="s1">&#39;n02100735&#39;</span><span class="p">,</span> <span class="s1">&#39;n02100877&#39;</span><span class="p">,</span> <span class="s1">&#39;n02101006&#39;</span><span class="p">,</span> <span class="s1">&#39;n02101388&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02101556&#39;</span><span class="p">,</span> <span class="s1">&#39;n02102040&#39;</span><span class="p">,</span> <span class="s1">&#39;n02102177&#39;</span><span class="p">,</span> <span class="s1">&#39;n02102318&#39;</span><span class="p">,</span> <span class="s1">&#39;n02102480&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02102973&#39;</span><span class="p">,</span> <span class="s1">&#39;n02104029&#39;</span><span class="p">,</span> <span class="s1">&#39;n02104365&#39;</span><span class="p">,</span> <span class="s1">&#39;n02105056&#39;</span><span class="p">,</span> <span class="s1">&#39;n02105162&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02105251&#39;</span><span class="p">,</span> <span class="s1">&#39;n02105412&#39;</span><span class="p">,</span> <span class="s1">&#39;n02105505&#39;</span><span class="p">,</span> <span class="s1">&#39;n02105641&#39;</span><span class="p">,</span> <span class="s1">&#39;n02105855&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02106030&#39;</span><span class="p">,</span> <span class="s1">&#39;n02106166&#39;</span><span class="p">,</span> <span class="s1">&#39;n02106382&#39;</span><span class="p">,</span> <span class="s1">&#39;n02106550&#39;</span><span class="p">,</span> <span class="s1">&#39;n02106662&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02107142&#39;</span><span class="p">,</span> <span class="s1">&#39;n02107312&#39;</span><span class="p">,</span> <span class="s1">&#39;n02107574&#39;</span><span class="p">,</span> <span class="s1">&#39;n02107683&#39;</span><span class="p">,</span> <span class="s1">&#39;n02107908&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02108000&#39;</span><span class="p">,</span> <span class="s1">&#39;n02108089&#39;</span><span class="p">,</span> <span class="s1">&#39;n02108422&#39;</span><span class="p">,</span> <span class="s1">&#39;n02108551&#39;</span><span class="p">,</span> <span class="s1">&#39;n02108915&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02109047&#39;</span><span class="p">,</span> <span class="s1">&#39;n02109525&#39;</span><span class="p">,</span> <span class="s1">&#39;n02109961&#39;</span><span class="p">,</span> <span class="s1">&#39;n02110063&#39;</span><span class="p">,</span> <span class="s1">&#39;n02110185&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02110341&#39;</span><span class="p">,</span> <span class="s1">&#39;n02110627&#39;</span><span class="p">,</span> <span class="s1">&#39;n02110806&#39;</span><span class="p">,</span> <span class="s1">&#39;n02110958&#39;</span><span class="p">,</span> <span class="s1">&#39;n02111129&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02111277&#39;</span><span class="p">,</span> <span class="s1">&#39;n02111500&#39;</span><span class="p">,</span> <span class="s1">&#39;n02111889&#39;</span><span class="p">,</span> <span class="s1">&#39;n02112018&#39;</span><span class="p">,</span> <span class="s1">&#39;n02112137&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02112350&#39;</span><span class="p">,</span> <span class="s1">&#39;n02112706&#39;</span><span class="p">,</span> <span class="s1">&#39;n02113023&#39;</span><span class="p">,</span> <span class="s1">&#39;n02113186&#39;</span><span class="p">,</span> <span class="s1">&#39;n02113624&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;n02113712&#39;</span><span class="p">,</span> <span class="s1">&#39;n02113799&#39;</span><span class="p">,</span> <span class="s1">&#39;n02113978&#39;</span><span class="p">,</span><span class="s1">&#39;n02123045&#39;</span><span class="p">,</span> <span class="s1">&#39;n02123159&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;n02123394&#39;</span><span class="p">,</span> <span class="s1">&#39;n02123597&#39;</span><span class="p">,</span> <span class="s1">&#39;n02124075&#39;</span><span class="p">,</span><span class="s1">&#39;n02125311&#39;</span><span class="p">,</span> <span class="s1">&#39;n02127052&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_files</span><span class="p">:</span>
+    <span class="n">del_pic</span><span class="p">(</span><span class="n">Xception</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">),</span> <span class="n">preprocess_input_Xception</span><span class="p">,</span> <span class="n">decode_predictions_Xception</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_files</span><span class="p">[</span><span class="mi">12500</span><span class="p">:</span><span class="mi">12510</span><span class="p">]:</span>
+    <span class="n">del_pic</span><span class="p">(</span><span class="n">InceptionResNetV2</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">),</span> <span class="n">preprocess_input_InceptionResNetV2</span><span class="p">,</span> <span class="n">decode_predictions_InceptionResNetV2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_files</span><span class="p">[</span><span class="mi">12500</span><span class="p">:</span><span class="mi">12510</span><span class="p">]:</span>
+    <span class="n">del_pic</span><span class="p">(</span><span class="n">InceptionV3</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">),</span> <span class="n">preprocess_input_InceptionV3</span><span class="p">,</span> <span class="n">decode_predictions_InceptionV3</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 去除异常图list中重复的单元</span>
+<span class="n">abnormal_pic_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">abnormal_pic_list</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 展示异常图片</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">abnormal_pic_list</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="p">[],</span> <span class="n">yticks</span><span class="o">=</span><span class="p">[])</span>
+    <span class="n">abnormal_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> 
+    <span class="c1"># 异常图片名称,待添加</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">abnormal_img</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>从以上图片中剔除正常的图片，得到最终的异常图片列表为如下：</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abnormal_pic_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data/train/dog.3889.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.8100.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.9188.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.10700.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.12376.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.1043.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.5490.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.1895.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.1308.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.1194.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.7564.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.3216.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.4218.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.4338.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.5604.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.10712.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.4367.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.10237.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.9171.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.8736.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.4688.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.11299.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.10029.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.7968.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.8470.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.3868.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.2614.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.5418.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.7377.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.12272.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.10161.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.1259.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.1773.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.6475.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.11186.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.11184.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.2939.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.10747.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.9517.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.10190.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/cat.8456.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.10801.jpg&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;data/train/dog.8898.jpg&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12081,7 +12313,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12167,7 +12400,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12257,7 +12491,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12265,7 +12500,8 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12274,7 +12510,8 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12340,20 +12577,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 基于ResNet50 提取特征向量</span>
-<span class="n">Image_feature_extractor</span><span class="p">(</span><span class="n">ResNet50</span><span class="p">,</span> <span class="p">(</span><span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">),</span> <span class="n">train_mode</span><span class="p">,</span> <span class="n">valid_mode</span><span class="p">,</span> <span class="n">test_mode</span><span class="p">,</span> <span class="n">preprocess_input_ResNet50</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 基于InceptionV3提取特征向量</span>
 <span class="n">Image_feature_extractor</span><span class="p">(</span><span class="n">InceptionV3</span><span class="p">,</span> <span class="p">(</span><span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">),</span> <span class="n">train_mode</span><span class="p">,</span> <span class="n">valid_mode</span><span class="p">,</span> <span class="n">test_mode</span><span class="p">,</span>  <span class="n">preprocess_input_InceptionV3</span><span class="p">)</span>
 </pre></div>
@@ -12391,7 +12614,22 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 基于ResNet50 提取特征向量</span>
+<span class="n">Image_feature_extractor</span><span class="p">(</span><span class="n">ResNet50</span><span class="p">,</span> <span class="p">(</span><span class="mi">299</span><span class="p">,</span> <span class="mi">299</span><span class="p">),</span> <span class="n">train_mode</span><span class="p">,</span> <span class="n">valid_mode</span><span class="p">,</span> <span class="n">test_mode</span><span class="p">,</span> <span class="n">preprocess_input_ResNet50</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12413,14 +12651,6 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#20197;&#19979;&#37096;&#20998;&#38656;&#35201;&#25191;&#34892;5&#27425;&#24182;&#27604;&#36739;&#65292;5&#27425;&#20998;&#21035;&#26159;&#21333;&#29420;&#20351;&#29992;InceptionResNetV2&#65292;InceptionV3&#65292;ResNet50&#65292;Xception&#29305;&#24449;&#21521;&#37327;&#65292;&#21644;&#32452;&#21512;&#22235;&#20010;&#29305;&#24449;&#21521;&#37327;&#25340;&#25509;&#21644;&#32452;&#21512;&#19977;&#20010;&#29305;&#24449;&#21521;&#37327;&#25340;&#25509;&#20316;&#20026;&#36755;&#20837;&#65292;&#26368;&#36817;&#23545;&#39044;&#27979;&#32467;&#26524;&#36827;&#34892;&#27604;&#36739;&#65292;&#36873;&#25321;&#26368;&#20248;&#27169;&#22411;&#12290;">&#20197;&#19979;&#37096;&#20998;&#38656;&#35201;&#25191;&#34892;5&#27425;&#24182;&#27604;&#36739;&#65292;5&#27425;&#20998;&#21035;&#26159;&#21333;&#29420;&#20351;&#29992;InceptionResNetV2&#65292;InceptionV3&#65292;ResNet50&#65292;Xception&#29305;&#24449;&#21521;&#37327;&#65292;&#21644;&#32452;&#21512;&#22235;&#20010;&#29305;&#24449;&#21521;&#37327;&#25340;&#25509;&#21644;&#32452;&#21512;&#19977;&#20010;&#29305;&#24449;&#21521;&#37327;&#25340;&#25509;&#20316;&#20026;&#36755;&#20837;&#65292;&#26368;&#36817;&#23545;&#39044;&#27979;&#32467;&#26524;&#36827;&#34892;&#27604;&#36739;&#65292;&#36873;&#25321;&#26368;&#20248;&#27169;&#22411;&#12290;<a class="anchor-link" href="#&#20197;&#19979;&#37096;&#20998;&#38656;&#35201;&#25191;&#34892;5&#27425;&#24182;&#27604;&#36739;&#65292;5&#27425;&#20998;&#21035;&#26159;&#21333;&#29420;&#20351;&#29992;InceptionResNetV2&#65292;InceptionV3&#65292;ResNet50&#65292;Xception&#29305;&#24449;&#21521;&#37327;&#65292;&#21644;&#32452;&#21512;&#22235;&#20010;&#29305;&#24449;&#21521;&#37327;&#25340;&#25509;&#21644;&#32452;&#21512;&#19977;&#20010;&#29305;&#24449;&#21521;&#37327;&#25340;&#25509;&#20316;&#20026;&#36755;&#20837;&#65292;&#26368;&#36817;&#23545;&#39044;&#27979;&#32467;&#26524;&#36827;&#34892;&#27604;&#36739;&#65292;&#36873;&#25321;&#26368;&#20248;&#27169;&#22411;&#12290;">&#182;</a></h3>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
@@ -12435,7 +12665,7 @@ div#notebook {
 <span class="n">y_valid</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="c1">#加载预处理的数据</span>
-<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;data/pre_data/cat_dog_Xception.npz&#39;</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;data/pre_data/cat_dog_InceptionResNetV2.npz&#39;</span><span class="p">,</span> <span class="s1">&#39;data/pre_data/cat_dog_Xception.npz&#39;</span><span class="p">,</span> <span class="s1">&#39;data/pre_data/cat_dog_InceptionV3.npz&#39;</span><span class="p">]:</span>
     <span class="n">mid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="n">X_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mid</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">])</span>
     <span class="n">X_valid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mid</span><span class="p">[</span><span class="s1">&#39;valid&#39;</span><span class="p">])</span>
@@ -12467,7 +12697,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12483,9 +12714,7 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 建立CNN模型</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">input_shape</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
-<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
-<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">))</span>
-<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.1</span><span class="p">))</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
 <span class="c1"># 模型概括</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -12496,7 +12725,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12509,7 +12739,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;rmsprop&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;Adadelta&#39;</span><span class="p">,</span>
               <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span>
               <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
 </pre></div>
@@ -12519,7 +12749,36 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 调整初始的Ir学习率</span>
+<span class="n">K</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 显示当前学习率</span>
+<span class="n">K</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">lr</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12532,7 +12791,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2019</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12551,7 +12811,7 @@ div#notebook {
 <span class="n">checkpointer</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;data/model.weights.best.hdf5&#39;</span><span class="p">,</span> 
                                <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">model_history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpointer</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpointer</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12573,7 +12833,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12634,7 +12895,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12676,7 +12938,8 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12711,6 +12974,19 @@ div#notebook {
 
 <span class="c1"># 训练的acc_loss图</span>
 <span class="n">plot_training</span><span class="p">(</span><span class="n">model_history</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
 </div>
